@@ -1,0 +1,118 @@
+{% extends "erp/base.html" %}
+{% block content %}
+<h4>Invoice # {{ invoice.invoice_num }}</h4>
+<div class="form-row">
+  <div class="col-md-6 mb-3">
+      <label for="validationCustom04">Customer</label>
+      <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.customer.name }}" disabled>
+  </div>            
+  <div class="col-md-6 mb-3">
+    <label for="validationCustom04">Compnay</label>
+    <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.customer.company }}" disabled>
+  </div>            
+</div>
+<div class="form-row">
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom01">PO Number</label>
+    <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.po_num }}" disabled> 
+  </div>
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom02">Currency</label>
+    <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.currency.name }}" disabled> 
+  </div>
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom02">Shipping Method</label>
+    <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.carrier.name }}" disabled> 
+  </div>
+</div>
+<div class="form-row">
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom01">Invoice Date</label>
+    <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.invoice_date }}" disabled>
+  </div>
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom02">Ship Date</label>
+    <input type="text" class="form-control" id="validationCustom02" value="{{ invoice.ship_date }}" disabled>
+  </div>
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom02">Total Amount</label>
+    <input type="text" class="form-control" id="validationCustom02" value="{{ amount.amount__sum }}" disabled>
+  </div>
+  </div>
+  <div class="form-row">
+      <div class="col-md-12 mb-3">
+      <label for="validationCustom01">End User</label>
+      <input type="text" class="form-control" id="validationCustom01" value="{{ invoice.end_user }}" disabled>
+  </div>
+</div>
+<div class="form-row">
+    <div>
+      <a href="{% url 'inv-update' invoice.invoice_num %}" class="btn btn-outline-primary btn-sm">Update</a>
+    </div>
+    <div class="pl-2">
+      <a href="{% url 'inv-delete' invoice.invoice_num %}" class="btn btn-outline-danger btn-sm">Delete</a>
+    </div>
+    <div class="pl-2">
+      <a href="{% url 'inv-home' %}" class="btn btn-outline-secondary btn-sm">Go Back</a>
+    </div>
+</div>
+
+  <hr>
+
+  <div class="float-right mt-3">
+    <h5><a href="{% url 'inv-order-item' invoice.invoice_num %}" class="btn btn-outline-primary btn-sm">New Item</a></h5>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Product ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Serial ID</th>
+        <th scope="col">Qty</th>
+        <th scope="col">Amount</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.product.id }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>
+                  {% if order.serial %} 
+                      {{ order.serial }}
+                  {% else %}
+                      &nbsp;
+                  {% endif %}
+                </td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.amount }}</td>
+                <td><a href="{% url 'inv-order-update' order.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                <a href="{% url 'inv-order-delete' order.id %}?next={% url 'inv-detail' invoice.invoice_num %}" class="btn btn-outline-danger btn-sm">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+  </script>
+{% endblock %}

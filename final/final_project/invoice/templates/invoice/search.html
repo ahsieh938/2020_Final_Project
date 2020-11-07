@@ -1,0 +1,23 @@
+{% extends "erp/base.html" %}
+{% block content %}
+    <h1>Search Invoice</h1>
+    <form action = "{% url 'inv-search' %}" method = "post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input name = "customer" placeholder = "Customer name">
+            <input type ="text" class = "datepicker" placeholder = "Start Date" name = "start">
+            <input type ="text" class = "datepicker" placeholder = "End Date" name = "end">
+        </div>
+        <script>
+            $(".datepicker").datepicker();
+        </script>
+        <button id = "search">Search</button>
+        <div id = "results">
+        </div>
+</form>
+    <ul>
+        {% for result in results %}
+        <li><a href = "{% url 'inv-detail' result.invoice_num %}">Invoice number: {{ result.invoice_num }} PO: {{ result.po_num}} Customer: {{ result.customer }} Date: {{ result.invoice_date}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

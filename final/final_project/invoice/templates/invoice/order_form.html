@@ -1,0 +1,63 @@
+{% extends "erp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-3 mb-0">
+                {{ form.invoice|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12 mb-0">
+                {{ form.product|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4 mb-0">
+                {{ form.user_num|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4 mb-0">
+                {{ form.quantity|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4 mb-0">
+                {{ form.amount|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3 mb-0">
+                {{ form.contract_type|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.contract_start|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.contract_end|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.serial|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12 mb-0">
+                {{ form.remark|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="form-row">
+           <div class="form-group">
+                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+            </div>
+            <div class="pl-2">
+                <a href="{% url 'inv-detail' form.invoice.value %}" class="btn btn-secondary btn-sm">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
